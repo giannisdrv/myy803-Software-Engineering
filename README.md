@@ -8,7 +8,7 @@ This repository contains the implementation of a Web-Based Requirements Specific
 * **Project Management:** Users can create, view, manage, and delete software projects directly from their personalized dashboard.
 * **Use Case Specification:** Robust tools to define Use Cases, including tracking Actors, Pre-conditions, Main Flows, Alternative Flows, and Post-conditions.
 * **CRC Card Management:** Allows the specification of classes using CRC cards, detailing Class Names, Responsibilities, and Collaborations. Use cases and CRC cards can be linked together to map functional requirements to object-oriented designs.
-* **Automated UML Generation:** Implements dynamic generation of textual description scripts that can be visualized as UML Use Case and Class diagrams using external tools like **PlantUML** and **Nomnoml**.
+* **Automated UML Generation:** Implements dynamic generation of textual description scripts that can be visualized as UML Use Case and Class diagrams using external tools like **Nomnoml**.
 
 ## Architecture & Technical Details
 * **Tech Stack:** Java, Spring Boot, Spring Security, Spring Data JPA (Hibernate), and MySQL for database management.
