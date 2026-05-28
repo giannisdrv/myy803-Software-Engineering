@@ -1,1 +1,0 @@
-[engine:junit-jupiter]/[class:myy803.project_2026.Project2026ApplicationTests]/[method:contextLoads()]
