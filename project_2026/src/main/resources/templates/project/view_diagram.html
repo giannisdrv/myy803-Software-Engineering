@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+    <title>View Diagram Script</title>
+</head>
+<body>
+<div class="container mt-4">
+
+    <h2>
+        <span th:if="${type == 'usecase'}">Use Case Diagram</span>
+        <span th:if="${type != 'usecase'}">CRC Diagram</span>
+        for: <span th:text="${project.name}">Project Name</span>
+    </h2>
+    <hr>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Nomnoml Script</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text">
+                Copy the script below and paste it into the 
+                <a href="https://nomnoml.com/" target="_blank">nomnoml.com</a> 
+                editor to generate your visualization.
+            </p>
+            
+            <textarea class="form-control bg-light" rows="15" readonly 
+                      style="font-family: monospace; resize: none;" 
+                      th:text="${script}">
+            </textarea>
+        </div>
+    </div>
+
+    <a th:href="@{/project/view_project/{id}(id=${project.id})}"
+       class="btn btn-outline-secondary mb-4">&larr; Back to Project</a>
+
+</div>
+</body>
+</html>

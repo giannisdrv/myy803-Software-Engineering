@@ -1,0 +1,113 @@
+package myy803.project_2026.config;
+
+import myy803.project_2026.services.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+
+
+/*
+ * @Configuration Indicates that a class declares one or more
+ * @Bean methods and may be processed by the
+ * Spring container to generate bean definitions
+ * and service requests for those beans at runtime.
+ * The class may also have code that configures other
+ * spring functionalities.
+ */
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+
+    /*
+     *
+     * Authentication configuration
+     *
+     */
+    @Autowired
+    private CustomSecuritySuccessHandler customSecuritySuccessHandler;
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        /*
+         * We need to tell spring boot which user details service implementation to use
+         * If we dont the default will be used
+         */
+        return new UserServiceImpl();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /*
+     * DaoAuthenticationProvider is an AuthenticationProvider implementation that uses
+     * a UserDetailsService
+     * and PasswordEncoder
+     * to authenticate a username and password.
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+
+        return authProvider;
+    }
+
+
+    /*
+     * Authorization configuration ....
+     */
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        /*
+         * Customizer authz is an interface
+         * due to the lambda expression evaluation an instance of the Customizer interface is created
+         * with a method implementation that calls authz.requestMatchers .....
+         */
+        http.authorizeHttpRequests(
+                (authorize) -> authorize
+                        .requestMatchers("/", "/login", "/register", "/save").permitAll()
+                        //.requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                        //.requestMatchers("/user/**").authenticated() // ??? ZAS is this needed ??? - changed from account to user
+                        //.requestMatchers("/project/**").authenticated()
+                        //.requestMatchers("/usecase/**").authenticated()
+                        .anyRequest().authenticated()
+                /*
+                 * The way to read the above rules is
+                 * if the request is
+                 * - /, or /login, or /register or /save then permit them without authorization,
+                 * - /admin/** require the ADMIN authority,
+                 * - /user/** require the USER authority;
+                 * else, only require authentication
+                 */
+
+        );
+
+        http.formLogin(fL ->
+                fL.loginPage("/login")
+                        // the error=true param is required so that the view shows appropriate failure message
+                        .failureUrl("/login?error=true")
+                        .successHandler(customSecuritySuccessHandler)
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+        );
+
+        http.logout(logOut -> logOut.logoutUrl("/logout")
+                .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
+                .logoutSuccessUrl("/")
+        );
+
+        http.authenticationProvider(authenticationProvider());
+
+        return http.build();
+    }
+}
