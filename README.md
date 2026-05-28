@@ -13,7 +13,7 @@ This repository contains the implementation of a Web-Based Requirements Specific
 ## Architecture & Technical Details
 * **Tech Stack:** Java, Spring Boot, Spring Security, Spring Data JPA (Hibernate), and MySQL for database management.
 * **Domain Model:** The core logic is driven by a well-structured domain model featuring classes such as `User`, `Project`, `UseCase`, `Crc`, and `AlternativeFlow`. The database schema is automatically generated from these entities using JPA annotations.
-* **Design Patterns:** The application's architecture heavily relies on established GoF (Gang of Four) design patterns. Specifically, it employs the **Strategy**, **Template Method**, and **Parameterized Factory** patterns to handle the alternative diagram generation strategies (e.g., swapping between PlantUML and Nomnoml script generators).
+* **Design Patterns:** The application's architecture heavily relies on established GoF (Gang of Four) design patterns. Specifically, it employs the **Strategy**, **Template Method**, and **Parameterized Factory** patterns to handle the alternative diagram generation strategies.
 * **Testing:** The application logic (repositories, services, controllers, and domain layers) is thoroughly tested using JUnit and Mockito.
 
 ## Evaluation & Development Flow (Sprints)
