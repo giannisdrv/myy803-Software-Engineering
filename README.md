@@ -24,6 +24,4 @@ The project was developed in iterative sprints, establishing a robust CI/CD-like
 
 ## Authors
 * **Ioannis Drivas** (5216)
-* **Eirini Kolonelou** (5456)
-* **Eugenia Pappa** (5534)
 * University of Ioannina, Department of Computer Science and Engineering
